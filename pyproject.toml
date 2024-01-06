@@ -1,0 +1,22 @@
+[tool.poetry]
+name = "voicebot"
+version = "0.1.0"
+description = ""
+authors = ["Luis Sanjuan"]
+readme = "README.md"
+
+
+[tool.poetry.dependencies]
+python = ">=3.9,<3.12"
+redis = "4.5.4"
+langchain = "0.0.198"
+twilio = "8.1.0"
+pyngrok = "6.0.0"
+python-dotenv = "1.0.0"
+vocode = "0.1.111a3"
+vonage = "3.5.1"
+
+
+[build-system]
+requires = ["poetry-core"]
+build-backend = "poetry.core.masonry.api"
