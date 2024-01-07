@@ -16,8 +16,10 @@ from vocode.streaming.telephony.server.base import (
 from speller_agent import SpellerAgentFactory
 import sys
 
-# if running from python, this will load the local .env
-# docker-compose will load the .env file by itself
+from vocode.streaming.models.synthesizer import AzureSynthesizerConfig 
+from vocode.streaming.models.transcriber import DeepgramTranscriberConfig 
+
+from vocode.streaming.models.synthesizer import ElevenLabsSynthesizerConfig, StreamElementsSynthesizerConfig
 from dotenv import load_dotenv
 
 load_dotenv()
@@ -45,6 +47,26 @@ if not BASE_URL:
 if not BASE_URL:
     raise ValueError("BASE_URL must be set in environment if not using pyngrok")
 
+
+# Multilingual support for speech synthesis
+# es-CO-SalomeNeural (Female)
+# es-CO-GonzaloNeural (Male)
+synthesizer_config = AzureSynthesizerConfig(
+    voice_name="es-CO-GonzaloNeural",
+    language_code="es-CO",
+    sampling_rate=8000,
+    audio_encoding="mulaw"
+)
+
+transcriber_config = DeepgramTranscriberConfig(
+    language="es",
+    sampling_rate=8000,
+    audio_encoding="mulaw",
+    chunk_size=1000
+)
+
+
+
 telephony_server = TelephonyServer(
     base_url=BASE_URL,
     config_manager=config_manager,
@@ -52,7 +74,7 @@ telephony_server = TelephonyServer(
         TwilioInboundCallConfig(
             url="/inbound_call",
             agent_config=ChatGPTAgentConfig(
-                initial_message=BaseMessage(text="What up"),
+                initial_message=BaseMessage(text="Hola como estas?"),
                 prompt_preamble="Have a pleasant conversation about life",
                 generate_responses=True,
             ),
@@ -60,6 +82,9 @@ telephony_server = TelephonyServer(
                 account_sid=os.environ["TWILIO_ACCOUNT_SID"],
                 auth_token=os.environ["TWILIO_AUTH_TOKEN"],
             ),
+            synthesizer_config=synthesizer_config,
+            transcriber_config=transcriber_config
+
         )
     ],
     agent_factory=SpellerAgentFactory(),
