@@ -66,6 +66,9 @@ transcriber_config = DeepgramTranscriberConfig(
     chunk_size=1000
 )
 
+SYNTH_CONFIG = ElevenLabsSynthesizerConfig.from_telephone_output_device(
+   api_key=os.getenv("ELEVEN_LABS_API_KEY") or "<your EL token>")
+
 
 
 telephony_server = TelephonyServer(
