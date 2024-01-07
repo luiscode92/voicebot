@@ -21,6 +21,7 @@ from vocode.streaming.models.transcriber import DeepgramTranscriberConfig
 
 from vocode.streaming.models.synthesizer import ElevenLabsSynthesizerConfig, StreamElementsSynthesizerConfig
 from dotenv import load_dotenv
+from vocode.streaming.telephony.config_manager.in_memory_config_manager import InMemoryConfigManager
 
 load_dotenv()
 
@@ -30,7 +31,7 @@ logging.basicConfig()
 logger = logging.getLogger(__name__)
 logger.setLevel(logging.DEBUG)
 
-config_manager = RedisConfigManager()
+config_manager = InMemoryConfigManager()
 
 BASE_URL = os.getenv("BASE_URL")
 
