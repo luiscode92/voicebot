@@ -45,8 +45,8 @@ async def main():
         synthesizer_config=synthesizer_config,
         transcriber_config=transcriber_config,
         agent_config=ChatGPTAgentConfig(
-                initial_message=BaseMessage(text="Hola Camila, soy tu consciencia Siriana,como estas?"),
-                prompt_preamble="Actua como un psicoanalista, y ten una consulta conmigo",
+                initial_message=BaseMessage(text="Hola, con quien hablo?"),
+                prompt_preamble="Actua como un agente de ventas",
                 generate_responses=True,
             ),
             twilio_config=TwilioConfig(
